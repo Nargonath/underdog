@@ -1282,7 +1282,10 @@ describe('Underdog', () => {
                     const { pushStream } = stream;
                     stream.pushStream = (headers, cb) => {
 
-                        pushStream.call(stream, headers, () => cb(new Error('Oops!')));
+                        pushStream.call(stream, headers, () => {
+
+                            process.nextTick(() => cb(new Error('Oops!')));
+                        });
                     };
 
                     const response = h.response('body');
